@@ -1,5 +1,8 @@
 var searchButtons = ["cat", "dog", "fish"];
 
+
+placeButtons();
+
 function placeButtons() {
 
     console.log("start")
@@ -9,7 +12,7 @@ function placeButtons() {
     for (i = 0; i < searchButtons.length; i++) {
 
         var newBtn = $("<button>");
-        newBtn.addClass("gifBtn");
+        newBtn.addClass("gifBtn btn btn-secondary m-1");
         newBtn.attr("data-term", searchButtons[i]);
         newBtn.text(searchButtons[i]);
         console.log(newBtn);
@@ -18,7 +21,13 @@ function placeButtons() {
 
     }
 
-
 }
 
-placeButtons();
+$("#addButton").on("click", function () {
+
+    var newTerm = $("#newInput").val().trim();
+    searchButtons.push(newTerm);
+
+    placeButtons();
+
+})
