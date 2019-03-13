@@ -34,8 +34,10 @@ $("#addButton").on("click", function () {
 
 function displayGifs() {
 
+    $("#gifImages").empty();
+
     var getTerm = $(this).attr("data-term");
-    var queryURL = "https://api.giphy.com/v1/gifs/random?api_key=dc6zaTOxFJmzC&tag=" + getTerm;
+    var queryURL = "https://api.giphy.com/v1/gifs/search?api_key=dc6zaTOxFJmzC&q=" + getTerm + "&limit=5";
 
     $.ajax({
 
@@ -45,14 +47,43 @@ function displayGifs() {
 
         .then(function (response) {
 
-            var imageUrl = response.data.image_original_url;
-            var newImage = $("<img>");
-            newImage.attr("src", imageUrl);
-            newImage.attr("alt", "Gif");
+            var results = response.data
 
-            $("#gifImages").prepend(newImage);
+            console.log(response)
 
+            for (var i = 0; i < results.length; i++) {
+
+                var p = $("<p>").text("Rating: " + results[i].rating);
+
+                var imageUrl = results[i].images.fixed_height_still.url;
+                var newImage = $("<img>");
+                newImage.attr("data-still", results[i].images.fixed_height_still.url);
+                newImage.attr("data-animate", results[i].images.fixed_height.url);
+                newImage.attr("data-state", "still");
+                newImage.addClass("gif");
+
+                newImage.attr("src", imageUrl);
+                newImage.attr("alt", "Gif");
+
+                $("#gifImages").prepend(newImage);
+                $("#gifImages").prepend(p);
+            }
         })
 }
 
-$(".gifBtn").on("click", displayGifs)
+function toggleAnimate() {
+
+    var state = $(this).attr("data-state");
+
+    if (state === "still") {
+        $(this).attr("src", $(this).attr("data-animate"));
+        $(this).attr("data-state", "animate");
+    } else {
+        $(this).attr("src", $(this).attr("data-still"));
+        $(this).attr("data-state", "still");
+    }
+
+}
+
+$(document).on("click", ".gifBtn", displayGifs);
+$(document).on("click", ".gif", toggleAnimate);
