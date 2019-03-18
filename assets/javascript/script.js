@@ -1,4 +1,6 @@
 var searchButtons = ["cat", "dog", "fish"];
+var offsetNum = 0;
+var queryURL = "";
 
 
 placeButtons();
@@ -36,8 +38,14 @@ function displayGifs() {
 
     $("#gifImages").empty();
 
+    offsetNum = 0;
+
+    var key = "ztB99PNKQy7VmLwq0qAKqeMoWmxy8NMA"
+    // var keyB = "dc6zaTOxFJmzC"
+
+
     var getTerm = $(this).attr("data-term");
-    var queryURL = "https://api.giphy.com/v1/gifs/search?api_key=dc6zaTOxFJmzC&q=" + getTerm + "&limit=5";
+    queryURL = "https://api.giphy.com/v1/gifs/search?api_key=" + key + "&q=" + getTerm + "&limit=10&rating=PG";
 
     $.ajax({
 
@@ -65,10 +73,54 @@ function displayGifs() {
                 newImage.attr("src", imageUrl);
                 newImage.attr("alt", "Gif");
 
-                $("#gifImages").prepend(newImage);
                 $("#gifImages").prepend(p);
+                $("#gifImages").prepend(newImage);
+
             }
-        })
+
+
+        });
+
+    $("#moreButton").on("click", function () {
+        offsetNum += 10;
+        console.log(offsetNum)
+        var queryUrlOffset = queryURL + "&offset=" + offsetNum
+        console.log(offsetNum)
+        console.log(queryUrlOffset)
+        $.ajax({
+
+                url: queryUrlOffset,
+                method: "GET"
+            })
+
+            .then(function (response) {
+
+                var results = response.data
+
+                console.log(response)
+
+                for (var i = 0; i < results.length; i++) {
+
+                    var p = $("<p>").text("Rating: " + results[i].rating);
+
+                    var imageUrl = results[i].images.fixed_height_still.url;
+                    var newImage = $("<img>");
+                    newImage.attr("data-still", results[i].images.fixed_height_still.url);
+                    newImage.attr("data-animate", results[i].images.fixed_height.url);
+                    newImage.attr("data-state", "still");
+                    newImage.addClass("gif");
+
+                    newImage.attr("src", imageUrl);
+                    newImage.attr("alt", "Gif");
+
+                    $("#gifImages").prepend(p);
+                    $("#gifImages").prepend(newImage);
+
+                }
+
+            });
+
+    });
 }
 
 function toggleAnimate() {
@@ -84,6 +136,11 @@ function toggleAnimate() {
     }
 
 }
+
+$("#moreButton").on("click", function () {
+
+
+})
 
 $(document).on("click", ".gifBtn", displayGifs);
 $(document).on("click", ".gif", toggleAnimate);
