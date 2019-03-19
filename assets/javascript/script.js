@@ -1,4 +1,4 @@
-var searchButtons = ["cat", "dog", "fish"];
+var searchButtons = ["spiderman", "superman", "batman", "the hulk", "wonder woman", "star lord"];
 var offsetNum = 0;
 var queryURL = "";
 
