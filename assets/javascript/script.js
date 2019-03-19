@@ -67,7 +67,7 @@ function displayGifs() {
                 div.addClass("col-sm-3");
 
                 var p = $("<p>").text("Rating: " + results[i].rating);
-                p.addClass("text-center bg-secondary pb-1 text-light")
+                p.addClass("text-center bg-secondary pb-1 text-light");
 
                 var imageUrl = results[i].images.fixed_height_still.url;
                 var newImage = $("<img>");
@@ -132,6 +132,8 @@ $("#moreButton").on("click", function () {
                 div.addClass("col-sm-3");
 
                 var p = $("<p>").text("Rating: " + results[i].rating);
+                p.addClass("text-center bg-secondary pb-1 text-light");
+
 
                 var imageUrl = results[i].images.fixed_height_still.url;
                 var newImage = $("<img>");
