@@ -39,6 +39,8 @@ function displayGifs() {
     $("#gifImages").empty();
 
     offsetNum = 0;
+    console.log("offset Num: " + offsetNum);
+
 
     var key = "ztB99PNKQy7VmLwq0qAKqeMoWmxy8NMA"
     // var keyB = "dc6zaTOxFJmzC"
@@ -61,6 +63,9 @@ function displayGifs() {
 
             for (var i = 0; i < results.length; i++) {
 
+                var div = $("<div>");
+                div.addClass("col-sm-3");
+
                 var p = $("<p>").text("Rating: " + results[i].rating);
 
                 var imageUrl = results[i].images.fixed_height_still.url;
@@ -68,59 +73,22 @@ function displayGifs() {
                 newImage.attr("data-still", results[i].images.fixed_height_still.url);
                 newImage.attr("data-animate", results[i].images.fixed_height.url);
                 newImage.attr("data-state", "still");
-                newImage.addClass("gif");
+                newImage.addClass("gif fullWidth");
 
                 newImage.attr("src", imageUrl);
                 newImage.attr("alt", "Gif");
 
-                $("#gifImages").prepend(p);
-                $("#gifImages").prepend(newImage);
+
+                $(div).prepend(p);
+                $(div).prepend(newImage);
+                $("#gifImages").prepend(div);
+
 
             }
 
 
         });
 
-    $("#moreButton").on("click", function () {
-        offsetNum += 10;
-        console.log(offsetNum)
-        var queryUrlOffset = queryURL + "&offset=" + offsetNum
-        console.log(offsetNum)
-        console.log(queryUrlOffset)
-        $.ajax({
-
-                url: queryUrlOffset,
-                method: "GET"
-            })
-
-            .then(function (response) {
-
-                var results = response.data
-
-                console.log(response)
-
-                for (var i = 0; i < results.length; i++) {
-
-                    var p = $("<p>").text("Rating: " + results[i].rating);
-
-                    var imageUrl = results[i].images.fixed_height_still.url;
-                    var newImage = $("<img>");
-                    newImage.attr("data-still", results[i].images.fixed_height_still.url);
-                    newImage.attr("data-animate", results[i].images.fixed_height.url);
-                    newImage.attr("data-state", "still");
-                    newImage.addClass("gif");
-
-                    newImage.attr("src", imageUrl);
-                    newImage.attr("alt", "Gif");
-
-                    $("#gifImages").prepend(p);
-                    $("#gifImages").prepend(newImage);
-
-                }
-
-            });
-
-    });
 }
 
 function toggleAnimate() {
@@ -133,14 +101,54 @@ function toggleAnimate() {
     } else {
         $(this).attr("src", $(this).attr("data-still"));
         $(this).attr("data-state", "still");
-    }
+    };
 
-}
-
-$("#moreButton").on("click", function () {
-
-
-})
+};
 
 $(document).on("click", ".gifBtn", displayGifs);
 $(document).on("click", ".gif", toggleAnimate);
+$("#moreButton").on("click", function () {
+
+    offsetNum += 10;
+    console.log("offset num:" + offsetNum)
+    var queryUrlOffset = queryURL + "&offset=" + offsetNum
+    console.log(queryUrlOffset)
+    $.ajax({
+
+            url: queryUrlOffset,
+            method: "GET"
+        })
+
+        .then(function (response) {
+
+            var results = response.data
+
+            console.log(response)
+
+            for (var i = 0; i < results.length; i++) {
+
+                var div = $("<div>");
+                div.addClass("col-sm-3");
+
+                var p = $("<p>").text("Rating: " + results[i].rating);
+
+                var imageUrl = results[i].images.fixed_height_still.url;
+                var newImage = $("<img>");
+                newImage.attr("data-still", results[i].images.fixed_height_still.url);
+                newImage.attr("data-animate", results[i].images.fixed_height.url);
+                newImage.attr("data-state", "still");
+                newImage.addClass("gif fullWidth");
+
+                newImage.attr("src", imageUrl);
+                newImage.attr("alt", "Gif");
+
+
+                $(div).prepend(p);
+                $(div).prepend(newImage);
+                $("#gifImages").prepend(div);
+
+            }
+
+        });
+
+});

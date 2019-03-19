@@ -4,4 +4,6 @@ body {
 
 }
 
-.container {}
+.fullWidth {
+    width: 100%;
+}
