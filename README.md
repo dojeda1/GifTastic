@@ -2,9 +2,9 @@
 
 ### About this Project
 
-Search for GIFs using the Giphy API. Results are displayed as images that show the gif when hovered over.
+Search for GIFs using the Giphy API. User creates buttons that, when clicked, displays the results as images and show the GIF when hovered over.
 
-  **Visit Web App [Here!](https://google-books-mern.herokuapp.com/)**
+  **Visit Web App [Here!](https://dojeda1.github.io/GifTastic/)**
 
 ### Technologies used
 
